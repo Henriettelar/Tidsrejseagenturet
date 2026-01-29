@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -13,11 +14,25 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label text="Kundeadministration">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
+      <HBox alignment="CENTER" prefHeight="45.0" prefWidth="600.0">
+         <children>
+            <BorderPane prefHeight="35.0" prefWidth="646.0">
+               <center>
+                  <Label text="Kundeadministration" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </center>
+               <left>
+                  <Button mnemonicParsing="false" onAction="#onBackClicked" text="Tilbage" BorderPane.alignment="CENTER" />
+               </left>
+            </BorderPane>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
       <HBox alignment="CENTER" prefHeight="259.0" prefWidth="600.0" spacing="20.0">
          <children>
             <VBox alignment="CENTER" prefHeight="330.0" prefWidth="154.0" spacing="20.0">

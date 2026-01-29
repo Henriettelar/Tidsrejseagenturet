@@ -1,6 +1,8 @@
 package com.example.tidsrejseagenturet;
 
 
+import Model.DB.DBConnection;
+import Model.DB.DBRepo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
