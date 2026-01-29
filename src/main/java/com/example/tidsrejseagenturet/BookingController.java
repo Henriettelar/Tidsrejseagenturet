@@ -40,4 +40,16 @@ public class BookingController {
     public void onBookingReadyClicked(ActionEvent actionEvent) {
 
     }
+
+    public void handleGuide(ActionEvent actionEvent) {
+    }
+
+    public void handlePeriod(ActionEvent actionEvent) {
+    }
+
+    public void handleMachine(ActionEvent actionEvent) {
+    }
+
+    public void handleCustomer(ActionEvent actionEvent) {
+    }
 }
