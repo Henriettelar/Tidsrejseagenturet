@@ -10,6 +10,7 @@ public class DBRepo {
         this.db = db;
     }
 
+    //Test til at db faktisk virker :|
     public void testConnection() {
         try (Connection c = db.get()) {
             DatabaseMetaData md = c.getMetaData();
