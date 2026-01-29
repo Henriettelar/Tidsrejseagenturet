@@ -13,9 +13,24 @@ public class CustomerController {
     }
 
     public void onAddClicked(ActionEvent actionEvent) {
+
+        if (nameText.getText().isEmpty()) {
+            nameText.setText("Write name");
+            nameText.setStyle("-fx-text-fill: red;");
+        } else {
+            //add customer to table + database (other class (DBRepo))
+        }
+        if (emailText.getText().isEmpty()) {
+            emailText.setText("Write email");
+            emailText.setStyle("-fx-text-fill: red;");
+        }
+
+
     }
 
     public void onEditClicked(ActionEvent actionEvent) {
+        customerTable.getSelectionModel().select(customerTable.getSelectionModel().getSelectedIndex());
+
     }
 
     public void onDeleteClicked(ActionEvent actionEvent) {
