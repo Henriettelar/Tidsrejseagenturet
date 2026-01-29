@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="609.0" spacing="10.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="609.0" spacing="10.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tidsrejseagenturet.BookingController">
    <children>
       <BorderPane prefHeight="85.0" prefWidth="589.0">
          <left>
@@ -33,8 +33,8 @@
       </BorderPane>
       <HBox alignment="CENTER" prefHeight="47.0" prefWidth="579.0" spacing="70.0">
          <children>
-            <ComboBox prefHeight="26.0" prefWidth="148.0" promptText="Vælg kunde" />
-            <ComboBox prefWidth="150.0" promptText="Vælg maskine" />
+            <ComboBox fx:id="customerChoice" onAction="#handleCustomer" prefHeight="26.0" prefWidth="148.0" promptText="Vælg kunde" />
+            <ComboBox fx:id="machineChoice" onAction="#handleMachine" prefWidth="150.0" promptText="Vælg maskine" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -54,8 +54,8 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
          <children>
-            <ComboBox prefWidth="150.0" promptText="Vælg periode" />
-            <ComboBox prefWidth="150.0" promptText="Vælg guide" />
+            <ComboBox fx:id="periodChoice" onAction="#handlePeriod" prefWidth="150.0" promptText="Vælg periode" />
+            <ComboBox fx:id="guideChoice" onAction="#handleGuide" prefWidth="150.0" promptText="Vælg guide" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="30.0" prefWidth="589.0" spacing="70.0">
