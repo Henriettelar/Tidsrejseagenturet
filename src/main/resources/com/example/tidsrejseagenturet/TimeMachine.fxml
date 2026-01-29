@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Tidsmaskiner">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <Label maxHeight="1.7976931348623157E308" prefHeight="62.0" prefWidth="388.0" text="Her kan du se overblik over de &#10;forskellige tidsmaskiner Tidsrejseagenturet tilbyder, deres kapacitet og deres tilgængelighed&#10;" textAlignment="CENTER" wrapText="true" />
+      <TableView fx:id="timeMachines" prefHeight="88.0" prefWidth="579.0">
+        <columns>
+          <TableColumn fx:id="machineName" prefWidth="232.00000607967377" text="Tidsmaskine" />
+          <TableColumn fx:id="machineCapacity" minWidth="1.5999755859375" prefWidth="216.0" text="Kapacitet" />
+            <TableColumn fx:id="machineStatus" minWidth="0.0" prefWidth="129.59999389648442" text="Tilgængelighed" />
+        </columns>
+      </TableView>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>
