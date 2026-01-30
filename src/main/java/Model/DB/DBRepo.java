@@ -71,6 +71,40 @@ public class DBRepo {
             }
             return -1;
         }
+
+        public boolean updateCustomer(int id, String name, String email){
+            String sql = "UPDATE Customers SET name = ?, email = ? WHERE customerId = ?";
+            try (Connection c = db.get();
+            PreparedStatement ps = c.prepareStatement(sql)){
+
+                ps.setString(1, name);
+                ps.setString(2,email);
+                ps.setInt(3,id);
+
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.err.println("Fejl i opdatering af kunde: " + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        public boolean deleteCustomer(int id){
+            String sql = "DELETE FROM Customers WHERE customerId = ?";
+            try (Connection c = db.get();
+                PreparedStatement ps = c.prepareStatement(sql)){
+
+                ps.setInt(1, id);
+                int affected = ps.executeUpdate();
+                return affected > 0; //Returnerer true hvis den kunne slette kunden
+            } catch (Exception e){
+                System.err.println("Fejl i slet af kunde: " + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+
+        }
+
     }
 
 

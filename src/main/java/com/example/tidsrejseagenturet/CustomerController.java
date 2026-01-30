@@ -7,11 +7,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
+import java.util.List;
 
 public class CustomerController {
     @FXML
@@ -95,25 +96,97 @@ public class CustomerController {
     }
 
     public void onEditClicked(ActionEvent actionEvent) {
-        customerTable.getSelectionModel().select(customerTable.getSelectionModel().getSelectedIndex());
+        Customer selected = customerTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
 
+            String newName = nameText.getText() == null ? "" : nameText.getText().trim();
+            String newEmail = emailText.getText() == null ? "" : emailText.getText().trim();
+
+            if (newName.isEmpty() || newEmail.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Navn og email skal udfyldes før opdatering", ButtonType.OK);
+                alert.showAndWait();
+                return;
+            }
+
+            int id = selected.getCustomerId();
+
+            Task<Boolean> task = new Task<>() {
+                @Override
+                protected Boolean call()  {
+                    return dbRepo.updateCustomer(id, newName, newEmail);
+                }
+            };
+
+        task.setOnSucceeded(evt -> {
+            boolean ok = Boolean.TRUE.equals(task.getValue());
+            if (ok) {
+                Customer updated = new  Customer(id, newName, newEmail);
+                int index = customers.indexOf(selected);
+                if (index >= 0) {
+                    customers.set(index, updated); // Udskift listen med den opdateret version
+                } else {
+                    //ellers load det hele fra databasen
+                    loadCustomersFromDatabase();
+                }
+                clearInputs();
+                new Alert(Alert.AlertType.INFORMATION, "Kunden er opdateret.", ButtonType.OK).showAndWait();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Opdatering mislykkedes.", ButtonType.OK).showAndWait();
+            }
+        });
+
+        task.setOnFailed(evt -> {
+            task.getException().printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Fejl ved opdatering: " + task.getException().getMessage(), ButtonType.OK).showAndWait();
+        });
+        new Thread(task).start();
     }
 
     public void onDeleteClicked(ActionEvent actionEvent) {
+        Customer selected = customerTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+
+        //Ekstra til at spørge om de er sikker på at de vil slette kunden
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Vil du slette denne kunde?", ButtonType.YES, ButtonType.NO);
+        confirm.setTitle("Bekræft slet");
+        confirm.setHeaderText(null);
+
+        confirm.showAndWait().ifPresent(btn -> {
+            if (btn == ButtonType.YES) {
+                Task<Boolean> task = new Task<>(){ //Så den kører i baggrunden uden at UI fryser
+                    @Override
+                    protected Boolean call() {
+                        return dbRepo.deleteCustomer(selected.getCustomerId());
+                    }
+                };
+                task.setOnSucceeded(evt ->{
+                    Boolean deleted = task.getValue();
+                    if (Boolean.TRUE.equals(deleted)) {
+                        customers.remove(selected);
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Kunne ikke slette kunde i databasen.", ButtonType.OK).showAndWait();
+                    }
+                });
+
+                task.setOnFailed(evt ->{
+                    task.getException().printStackTrace();
+                    new Alert(Alert.AlertType.ERROR, "Fejl i sletning: " + task.getException().getMessage(), ButtonType.OK).showAndWait();
+                });
+
+                new Thread(task).start();
+            }
+        });
     }
 
-    private int parseIdOrDefault(String text, int defaultVal) {
-        if (text == null || text.trim().isEmpty()) return defaultVal;
-        try {
-            return Integer.parseInt(text.trim());
-        } catch (NumberFormatException e) {
-            return defaultVal;
-        }
-    }
 
     private void loadCustomersFromDatabase() {
         customers.clear();
-        customers.addAll(dbRepo.getAllCustomers());
+        List<Customer> all = dbRepo.getAllCustomers();
+        customers.addAll(all);
     }
 
     private void clearInputs() {
@@ -124,3 +197,4 @@ public class CustomerController {
         emailText.setStyle("");
     }
 }
+
